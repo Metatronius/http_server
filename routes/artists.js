@@ -15,4 +15,21 @@ router.get('/artists', (req, res, next) => {
         });
 });
 
+router.get('/artists/:id', (req, res, next) => {
+    knex('artists')
+        .where('id', req.params.id)
+        .first()
+        .then((artist) => {
+            if (!artist) {
+                res.send({
+                    Status: 'Artist Does Not Exist'
+                });
+            }
+            res.send(artist);
+        })
+        .catch((err) => {
+            next(err);
+        });
+});
+
 module.exports = router;
